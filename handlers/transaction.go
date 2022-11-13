@@ -2,12 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
-	"github.com/golang-jwt/jwt/v4"
-	"github.com/gorilla/mux"
-	"github.com/midtrans/midtrans-go"
-	"github.com/midtrans/midtrans-go/coreapi"
-	"github.com/midtrans/midtrans-go/snap"
 	"net/http"
 	"online-cinema/dto"
 	transactiondto "online-cinema/dto/transaction"
@@ -16,6 +10,12 @@ import (
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/golang-jwt/jwt/v4"
+	"github.com/gorilla/mux"
+	"github.com/midtrans/midtrans-go"
+	"github.com/midtrans/midtrans-go/coreapi"
+	"github.com/midtrans/midtrans-go/snap"
 )
 
 var c = coreapi.Client{
@@ -171,9 +171,9 @@ func (h *handlerTransaction) Notification(w http.ResponseWriter, r *http.Request
 	fraudStatus := notificationPayload["fraud_status"].(string)
 	orderId := notificationPayload["order_id"].(string)
 
-	fmt.Println("INI MASUK NOTIFIKASI STATUS :", transactionStatus)
-	fmt.Println("INI MASUK NOTIFIKASI FRAUD STATUS :", fraudStatus)
-	fmt.Println("INI MASUK NOTIFIKASI FRAUD ORDERID :", orderId)
+	// fmt.Println("INI MASUK NOTIFIKASI STATUS :", transactionStatus)
+	// fmt.Println("INI MASUK NOTIFIKASI FRAUD STATUS :", fraudStatus)
+	// fmt.Println("INI MASUK NOTIFIKASI FRAUD ORDERID :", orderId)
 
 	if transactionStatus == "capture" {
 		if fraudStatus == "challenge" {

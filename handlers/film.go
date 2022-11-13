@@ -39,6 +39,7 @@ func (h *handlerFilm) GetFilm(w http.ResponseWriter, r *http.Request) {
 	response := dto.SuccessResult{Status: "Success", Data: film}
 	json.NewEncoder(w).Encode(response)
 }
+
 func (h *handlerFilm) GetFilmId(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -63,7 +64,6 @@ func (h *handlerFilm) CreateFilm(w http.ResponseWriter, r *http.Request) {
 	dataUpload := r.Context().Value("dataFile")
 	filename := dataUpload.(string)
 
-	//conv int to str
 	price, _ := strconv.Atoi(r.FormValue("price"))
 	category, err := strconv.Atoi(r.FormValue("category_id"))
 

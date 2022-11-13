@@ -9,8 +9,8 @@ import (
 type UserRepository interface {
 	GetUser() ([]models.User, error)
 	GetUserID(ID int) (models.User, error)
-	UpdateUser(user models.User, ID int) (models.User, error)
-	DeleteUser(user models.User, ID int) (models.User, error)
+	// UpdateUser(user models.User, ID int) (models.User, error)
+	// DeleteUser(user models.User, ID int) (models.User, error)
 }
 
 func RepositoryUser(db *gorm.DB) *repository {
@@ -30,12 +30,12 @@ func (r *repository) GetUserID(ID int) (models.User, error) {
 	return UserId, err
 }
 
-func (r *repository) UpdateUser(user models.User, ID int) (models.User, error) {
-	err := r.db.Model(&user).Where("id=?", ID).Updates(&user).Error
-	return user, err
-}
+// func (r *repository) UpdateUser(user models.User, ID int) (models.User, error) {
+// 	err := r.db.Model(&user).Where("id=?", ID).Updates(&user).Error
+// 	return user, err
+// }
 
-func (r *repository) DeleteUser(user models.User, ID int) (models.User, error) {
-	err := r.db.Delete(&user, ID).Error
-	return user, err
-}
+// func (r *repository) DeleteUser(user models.User, ID int) (models.User, error) {
+// 	err := r.db.Delete(&user, ID).Error
+// 	return user, err
+// }

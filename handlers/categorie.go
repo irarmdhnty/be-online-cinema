@@ -37,6 +37,7 @@ func (h *handlercategory) GetCategory(w http.ResponseWriter, r *http.Request) {
 	response := dto.SuccessResult{Status: "Success", Data: catgeory}
 	json.NewEncoder(w).Encode(response)
 }
+
 func (h *handlercategory) GetCategoryId(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 

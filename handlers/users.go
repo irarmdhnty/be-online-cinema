@@ -2,13 +2,12 @@ package handlers
 
 import (
 	"encoding/json"
-	"github.com/gorilla/mux"
 	"net/http"
 	"online-cinema/dto"
-	"online-cinema/dto/auth"
-	"online-cinema/models"
 	"online-cinema/repositories"
 	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 type handler struct {
@@ -37,6 +36,7 @@ func (h *handler) GetUser(w http.ResponseWriter, r *http.Request) {
 	response := dto.SuccessResult{Status: "Success", Data: users}
 	json.NewEncoder(w).Encode(response)
 }
+
 func (h *handler) GetuserId(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -55,52 +55,52 @@ func (h *handler) GetuserId(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
-func (h *handler) UpdateUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
+// func (h *handler) UpdateUser(w http.ResponseWriter, r *http.Request) {
+// 	w.Header().Set("Content-Type", "application/json")
 
-	id, _ := strconv.Atoi(mux.Vars(r)["id"])
-	var request auth.AuthRequest
-	request = auth.AuthRequest{
-		FullName: r.FormValue("fullName"),
-		Email:    r.FormValue("email"),
-	}
-	userModel := models.User{}
-	if request.FullName != "" {
-		userModel.FullName = request.FullName
-	}
+// 	id, _ := strconv.Atoi(mux.Vars(r)["id"])
+// 	var request auth.AuthRequest
+// 	request = auth.AuthRequest{
+// 		FullName: r.FormValue("fullName"),
+// 		Email:    r.FormValue("email"),
+// 	}
+// 	userModel := models.User{}
+// 	if request.FullName != "" {
+// 		userModel.FullName = request.FullName
+// 	}
 
-	if request.Email != "" {
-		userModel.Email = request.Email
-	}
-	user, err := h.UserRepository.UpdateUser(userModel, id)
+// 	if request.Email != "" {
+// 		userModel.Email = request.Email
+// 	}
+// 	user, err := h.UserRepository.UpdateUser(userModel, id)
 
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		response := dto.ErrResult{Status: "Failed", Message: err.Error()}
-		json.NewEncoder(w).Encode(response)
-		return
-	}
-	w.WriteHeader(http.StatusOK)
-	response := dto.SuccessResult{Status: "Succses", Data: user}
-	json.NewEncoder(w).Encode(response)
-}
+// 	if err != nil {
+// 		w.WriteHeader(http.StatusBadRequest)
+// 		response := dto.ErrResult{Status: "Failed", Message: err.Error()}
+// 		json.NewEncoder(w).Encode(response)
+// 		return
+// 	}
+// 	w.WriteHeader(http.StatusOK)
+// 	response := dto.SuccessResult{Status: "Succses", Data: user}
+// 	json.NewEncoder(w).Encode(response)
+// }
 
-func (h *handler) Delete(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
+// func (h *handler) Delete(w http.ResponseWriter, r *http.Request) {
+// 	w.Header().Set("Content-Type", "application/json")
 
-	id, _ := strconv.Atoi(mux.Vars(r)["id"])
-	user := models.User{}
+// 	id, _ := strconv.Atoi(mux.Vars(r)["id"])
+// 	user := models.User{}
 
-	deletedUser, err := h.UserRepository.DeleteUser(user, id)
+// 	deletedUser, err := h.UserRepository.DeleteUser(user, id)
 
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		response := dto.ErrResult{Status: "Failed delete", Message: err.Error()}
-		json.NewEncoder(w).Encode(response)
-		return
-	}
+// 	if err != nil {
+// 		w.WriteHeader(http.StatusBadRequest)
+// 		response := dto.ErrResult{Status: "Failed delete", Message: err.Error()}
+// 		json.NewEncoder(w).Encode(response)
+// 		return
+// 	}
 
-	w.WriteHeader(http.StatusOK)
-	response := dto.SuccessResult{Status: "Success", Data: deletedUser}
-	json.NewEncoder(w).Encode(response)
-}
+// 	w.WriteHeader(http.StatusOK)
+// 	response := dto.SuccessResult{Status: "Success", Data: deletedUser}
+// 	json.NewEncoder(w).Encode(response)
+// }
