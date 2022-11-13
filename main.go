@@ -38,6 +38,6 @@ func main() {
 	var port = os.Getenv("PORT")
 
 	fmt.Println("SERVER Running on Port 8000")
-	http.ListenAndServe("localhost:"+port, handlers.CORS(allowedHeaders, allowedMethods, allowedOrigins)(r))
+	http.ListenAndServe(":"+port, handlers.CORS(allowedHeaders, allowedMethods, allowedOrigins)(r))
 
 }
