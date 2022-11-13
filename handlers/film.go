@@ -92,12 +92,19 @@ func (h *handlerFilm) CreateFilm(w http.ResponseWriter, r *http.Request) {
 func (h *handlerFilm) UpdateFilm(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	request := new(film.CreateFilmRequest)
-	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		response := dto.ErrResult{Status: "Failed", Message: err.Error()}
-		json.NewEncoder(w).Encode(response)
-		return
+	dataUpload := r.Context().Value("dataFile")
+	filename := dataUpload.(string)
+
+	price, _ := strconv.Atoi(r.FormValue("price"))
+	category, _ := strconv.Atoi(r.FormValue("category_id"))
+
+	request := film.CreateFilmRequest{
+		Title:       r.FormValue("title"),
+		Description: r.FormValue("description"),
+		Price:       price,
+		FilmUrl:     r.FormValue("filmUrl"),
+		Image:       os.Getenv("PATH_FILE") + filename,
+		CategoryID:  category,
 	}
 
 	id, _ := strconv.Atoi(mux.Vars(r)["id"])
@@ -114,7 +121,7 @@ func (h *handlerFilm) UpdateFilm(w http.ResponseWriter, r *http.Request) {
 		film.Price = request.Price
 	}
 
-	if request.Image != "" {
+	if filename != "" {
 		film.Image = request.Image
 	}
 
