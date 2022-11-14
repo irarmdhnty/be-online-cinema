@@ -76,7 +76,7 @@ func (h *handlerFilm) CreateFilm(w http.ResponseWriter, r *http.Request) {
 	cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
 
 	resp, err := cld.Upload.Upload(ctx, filename, uploader.UploadParams{Folder: "onlineCinema"})
-
+	
 	price, _ := strconv.Atoi(r.FormValue("price"))
 	category, err := strconv.Atoi(r.FormValue("category_id"))
 
@@ -85,7 +85,7 @@ func (h *handlerFilm) CreateFilm(w http.ResponseWriter, r *http.Request) {
 		Description: r.FormValue("description"),
 		Price:       price,
 		FilmUrl:     r.FormValue("filmUrl"),
-		Image:      resp.SecureURL,
+		Image:      resp.SecureURL	,
 		CategoryID:  category,
 	}
 
