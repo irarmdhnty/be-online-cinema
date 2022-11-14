@@ -1,9 +1,9 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
 	"net/http"
 	"online-cinema/dto"
 	"online-cinema/dto/film"
@@ -11,6 +11,10 @@ import (
 	"online-cinema/repositories"
 	"os"
 	"strconv"
+
+	"github.com/cloudinary/cloudinary-go/v2"
+	"github.com/cloudinary/cloudinary-go/v2/api/uploader"
+	"github.com/gorilla/mux"
 )
 
 type handlerFilm struct {
@@ -64,6 +68,15 @@ func (h *handlerFilm) CreateFilm(w http.ResponseWriter, r *http.Request) {
 	dataUpload := r.Context().Value("dataFile")
 	filename := dataUpload.(string)
 
+	var ctx = context.Background()
+	var CLOUD_NAME = os.Getenv("CLOUD_NAME")
+	var API_KEY = os.Getenv("API_KEY")
+	var API_SECRET = os.Getenv("API_SECRET")
+
+	cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
+
+	resp, err := cld.Upload.Upload(ctx, filename, uploader.UploadParams{Folder: "onlineCinema"})
+
 	price, _ := strconv.Atoi(r.FormValue("price"))
 	category, err := strconv.Atoi(r.FormValue("category_id"))
 
@@ -72,7 +85,7 @@ func (h *handlerFilm) CreateFilm(w http.ResponseWriter, r *http.Request) {
 		Description: r.FormValue("description"),
 		Price:       price,
 		FilmUrl:     r.FormValue("filmUrl"),
-		Image:       os.Getenv("PATH_FILE") + filename,
+		Image:      resp.SecureURL,
 		CategoryID:  category,
 	}
 
